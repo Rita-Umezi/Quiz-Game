@@ -21,9 +21,12 @@ const questionBank = {
     ],
     hard: [
         { q: "What is the square root of 144?", a: ["10", "11", "12", "14"], correct: "12" },
-        { q: "Who wrote 'Hamlet'?", a: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"], correct: "William Shakespeare" },
-        { q: "What is the capital of Japan?", a: ["Seoul", "Beijing", "Tokyo", "Bangkok"], correct: "Tokyo" },
-        // ... add more questions
+        { q: "Who developed the theory of relativity?", a: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"], correct: "Albert Einstein" },
+        { q: "What is the capital of Iceland?", a: ["Oslo", "Helsinki", "Reykjavik", "Copenhagen"], correct: "Reykjavik" },
+        { q: "What is the hardest natural substance on Earth?", a: ["Gold", "Iron", "Diamond", "Platinum"], correct: "Diamond" },
+        { q: "In which year did the Titanic sink?", a: ["1910", "1912", "1914", "1916"], correct: "1912" },
+        { q: "What is the chemical symbol for gold?", a: ["Au", "Ag", "Gd", "Ga"], correct: "Au" },
+       
     ]
 };
 
@@ -60,18 +63,36 @@ const timeEl = document.getElementById('time-left');
 const levelEl = document.getElementById('level-name');
 const scoreEl = document.getElementById('score');
 
+// Global error handlers to surface runtime errors in the browser
+window.addEventListener('error', (e) => {
+    console.error('Global error:', e.message || e);
+    alert('Runtime error: ' + (e.message || e));
+    if (startBtn) startBtn.hidden = false;
+});
+window.addEventListener('unhandledrejection', (e) => {
+    console.error('Unhandled promise rejection:', e.reason);
+    alert('Runtime error: ' + (e.reason && e.reason.message ? e.reason.message : e.reason));
+    if (startBtn) startBtn.hidden = false;
+});
+
 // ----------------------------
 // 4. Game Functions
 // ----------------------------
 startBtn.addEventListener('click', startGame);
 
 function startGame() {
-    startBtn.style.display = 'none';
-    currentLevel = 'easy';
-    questionIdx = 0;
-    score = 0;
-    updateScoreDisplay();
-    loadQuestion();
+    try {
+        startBtn.hidden = true;
+        currentLevel = 'easy';
+        questionIdx = 0;
+        score = 0;
+        updateScoreDisplay();
+        loadQuestion();
+    } catch (err) {
+        console.error('Error in startGame:', err);
+        alert('Failed to start game: ' + (err && err.message ? err.message : err));
+        startBtn.hidden = false;
+    }
 }
 
 function loadQuestion() {
@@ -180,7 +201,7 @@ function resetGame() {
     questionIdx = 0;
     questionEl.innerText = "Press the button below to start!";
     answerBox.innerHTML = '';
-    startBtn.style.display = 'block';
+    startBtn.hidden = false;
     score = 0;
     updateScoreDisplay();
     timeEl.innerText = levelsConfig[currentLevel].time;
@@ -190,10 +211,12 @@ function resetGame() {
 // 9. Update Score Display (modified)
 // ----------------------------
 function updateScoreDisplay() {
+    // If the score element was removed from the DOM, bail out safely
+    if (!scoreEl) return;
     if (!questionBank[currentLevel]) return;
 
     const totalQuestions = questionBank[currentLevel].length;
-    const pointsPerQuestion = pointsConfig[currentLevel];
+    const pointsPerQuestion = pointsConfig[currentLevel] || 1;
     const totalScore = totalQuestions * pointsPerQuestion;
 
     scoreEl.innerText = `${score}/${totalScore}`;
