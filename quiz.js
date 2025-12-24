@@ -1,6 +1,5 @@
-// ----------------------------
+
 // 1. Data Structure
-// ----------------------------
 const questionBank = {
     easy: [
         { q: "What is 5 + 5?", a: ["10", "15", "20", "5"], correct: "10" },
@@ -30,9 +29,9 @@ const questionBank = {
     ]
 };
 
-// ----------------------------
+
 // 2. State Variables
-// ----------------------------
+
 let currentLevel = 'easy';
 let questionIdx = 0;
 let score = 0;
@@ -53,9 +52,8 @@ const pointsConfig = {
     hard: 4
 };
 
-// ----------------------------
+
 // 3. Selectors
-// ----------------------------
 const questionEl = document.getElementById('question-text');
 const answerBox = document.getElementById('answer-buttons');
 const startBtn = document.getElementById('start-btn');
@@ -75,9 +73,8 @@ window.addEventListener('unhandledrejection', (e) => {
     if (startBtn) startBtn.hidden = false;
 });
 
-// ----------------------------
+
 // 4. Game Functions
-// ----------------------------
 startBtn.addEventListener('click', startGame);
 
 function startGame() {
@@ -143,9 +140,8 @@ function startTimer() {
     }, 1000);
 }
 
-// ----------------------------
+
 // 5. Check Answer (modified for points)
-// ----------------------------
 function checkAnswer(selected, correct) {
     setAnswersDisabled(true);
     clearInterval(timer);
@@ -166,9 +162,8 @@ function checkAnswer(selected, correct) {
     }
 }
 
-// ----------------------------
+
 // 6. Next Level
-// ----------------------------
 function nextLevel() {
     const next = levelsConfig[currentLevel].next;
 
@@ -184,18 +179,16 @@ function nextLevel() {
     }
 }
 
-// ----------------------------
+
 // 7. Game Over
-// ----------------------------
 function handleGameOver(msg) {
     clearInterval(timer);
     alert(`${msg} Game Over. Final Level: ${currentLevel}`);
     resetGame();
 }
 
-// ----------------------------
+
 // 8. Reset Game
-// ----------------------------
 function resetGame() {
     currentLevel = 'easy';
     questionIdx = 0;
@@ -207,9 +200,8 @@ function resetGame() {
     timeEl.innerText = levelsConfig[currentLevel].time;
 }
 
-// ----------------------------
+
 // 9. Update Score Display (modified)
-// ----------------------------
 function updateScoreDisplay() {
     // If the score element was removed from the DOM, bail out safely
     if (!scoreEl) return;
@@ -222,9 +214,8 @@ function updateScoreDisplay() {
     scoreEl.innerText = `${score}/${totalScore}`;
 }
 
-// ----------------------------
+
 // 10. Disable buttons helper
-// ----------------------------
 function setAnswersDisabled(disabled) {
     const buttons = answerBox.querySelectorAll('button');
     buttons.forEach(b => b.disabled = disabled);
