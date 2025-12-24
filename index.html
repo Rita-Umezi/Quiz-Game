@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Level Quiz</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="info-bar">
+            <div>Level: <span id="level-name" class="easy">Easy</span></div>
+            <div id="timer">Time: <span id="time-left">20</span>s</div>
+            <div>Score: <span id="score">0</span>/30</div>
+        </div>
+
+        <div id="quiz-box">
+            <h2 id="question-text">Press the button below to start!</h2>
+            <div id="answer-buttons" class="btn-grid"></div>
+        </div>
+
+        <button id="start-btn">Start Game</button>
+    </div>
+
+    <script src="quiz.js"></script>
+</body>
+</html>
