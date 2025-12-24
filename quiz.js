@@ -41,18 +41,30 @@ startBtn.addEventListener('click', startGame);
 
 function startGame() {
     startBtn.style.display = 'none';
+    currentLevel = 'easy';
     questionIdx = 0;
     score = 0;
+    updateScoreDisplay();
     loadQuestion();
 }
 
 function loadQuestion() {
     clearInterval(timer);
+    const total = questionBank[currentLevel].length;
+
+    if (questionIdx >= total) {
+        nextLevel();
+        return;
+    }
+
     const data = questionBank[currentLevel][questionIdx];
-    
+    if (!data) {
+        handleGameOver('No question data available');
+        return;
+    }
+
     questionEl.innerText = data.q;
     answerBox.innerHTML = '';
-    scoreEl.innerText = questionIdx + 1;
     levelEl.innerText = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
     levelEl.className = currentLevel;
 
@@ -63,6 +75,7 @@ function loadQuestion() {
         answerBox.appendChild(btn);
     });
 
+    updateScoreDisplay();
     startTimer();
 }
 
@@ -84,8 +97,10 @@ function startTimer() {
 
 function checkAnswer(selected, correct) {
     if (selected === correct) {
+        score++;
         questionIdx++;
-        if (questionIdx >= 30) {
+        const total = questionBank[currentLevel].length;
+        if (questionIdx >= total) {
             nextLevel();
         } else {
             loadQuestion();
@@ -117,7 +132,15 @@ function handleGameOver(msg) {
 function resetGame() {
     currentLevel = 'easy';
     questionIdx = 0;
-    questionEl.innerText = "Press Start to Play Again";
+    questionEl.innerText = "Press the button below to start!";
     answerBox.innerHTML = '';
     startBtn.style.display = 'block';
+    score = 0;
+    updateScoreDisplay();
+    timeEl.innerText = levelsConfig[currentLevel].time;
+}
+
+function updateScoreDisplay() {
+    const total = questionBank[currentLevel] ? questionBank[currentLevel].length : 0;
+    scoreEl.innerText = `${score}/${total}`;
 }
