@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Level Quiz</title>
     <link rel="stylesheet" href="quiz.css">
+    <script src="https://kit.fontawesome.com/25c990c666.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div id="box">
+       <h1>Quiz Game 🎉</h1>
+       <p style="color: white;"><b>Test your knowledge with random questions!</b></p>
+       <p style="color: white;"><b>You can read about the quiz and also view the instructions when you click here</b></p>
+
     <div id="game-container">
+        
         <div id="info-bar">
             <div>Level: <span id="level-name" class="easy">Easy</span></div>
             <div id="timer">Time: <span id="time-left">20</span>s</div>
-            <div>Score: <span id="score">0</span>/30</div>
+            
+            
         </div>
-
         <div id="quiz-box">
             <h2 id="question-text">Press the button below to start!</h2>
             <div id="answer-buttons" class="btn-grid"></div>
@@ -21,7 +28,16 @@
 
         <button id="start-btn">Start Game</button>
     </div>
+        <p style="color: white;"><b>Instructions:</b></p>
+<p style="color: white;">1. Click the "Start Game" button to begin the quiz.</p>
+<p style="color: white;">2.Try to answer as many questions as possible within the time limit.</p>
+<p style="color: white;">3. Each correct answer will earn you points based on the difficulty level.</p>
+<p style="color: white;">4. Easy mode gives 2 points, medium mode gives 3 points, and hard mode gives 5 points.</p>
+<p style="color: white;">5. Keep an eye on the timer! If it runs out, the game is over.</p>
+<p style="color: white;">6. At the end of the game, your total score will be displayed.</p>
+<p style="color: white;">Good luck and have fun!</p>
 
+    </div>
     <script src="quiz.js"></script>
 </body>
 </html>
