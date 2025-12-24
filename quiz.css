@@ -35,6 +35,9 @@ h1{
   font-weight: bold;
 }
 
+#instructions {
+ text-align: center;
+}
 .btn-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
